@@ -29,8 +29,7 @@ print(id1, type1, setup, line)
 
 -----------------------------
 
-
-
+#This was an API challenge given to me by a Fortune 50 developer in the 6 figures for practice which I shockingly solved to his surprise almost instantly:
 # https://api.coingecko.com/api/v3/coins
 import requests
 site3="https://api.coingecko.com/api/v3/coins"
