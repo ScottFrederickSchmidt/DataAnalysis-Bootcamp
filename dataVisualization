@@ -1,0 +1,43 @@
+'''
+DATA VISUALIZATION section:
+I used Covid data instead of car data for this Udemy course.
+Being in the middle of the second winter wave of COVID in 2021,
+I found Covid data to be more useful and has been something I want to start analyzing.
+'''
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df=pd.read_csv(r'C:\Users\sschm\Desktop\worldometer_data.csv')
+country=df['Country/Region'][0:5]
+deaths=df['TotalDeaths'][0:5]
+plt.bar(country, deaths)
+plt.xticks(rotation=45)
+plt.xlabel("Country")
+plt.title("Covid Data", fontsize=16, fontweight="bold")
+plt.ylabel("Number of Deaths")
+#Eplt.show()
+
+
+'''
+Barcharts should be considered using first for graphs.
+Using a barchart should start from 0 on the Y axis, otherwise it can disort the data.
+
+Even though pie charts are the most common type of chart but comes with many disavantages.
+A barchart should be the "go to". A pie chart can only be used if the data adds up to 100%.
+Also, a pie chart should not be used if there are too many catergories.
+'''
+
+'''
+Creating a piechart in numPy seems to be easier on first impression.
+This was not an official part of the Udemy course.
+'''
+import matplotlib.pyplot as plt
+import numpy as np
+
+y = np.array([35, 25, 25, 15])
+print(y)
+
+plt.pie(y)
+plt.show() 
