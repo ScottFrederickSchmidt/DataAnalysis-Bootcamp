@@ -23,21 +23,19 @@ plt.ylabel("Number of Deaths")
 '''
 Barcharts should be considered using first for graphs.
 Using a barchart should start from 0 on the Y axis, otherwise it can disort the data.
-
-Even though pie charts are the most common type of chart but comes with many disavantages.
-A barchart should be the "go to". A pie chart can only be used if the data adds up to 100%.
-Also, a pie chart should not be used if there are too many catergories.
 '''
 
 '''
-Creating a piechart in numPy seems to be easier on first impression.
-This was not an official part of the Udemy course.
+Pie charts can disort the graph (especially a 3D).
+The numbers should add up to 100%.
+In short, a barchart should almost always be used. 
 '''
 import matplotlib.pyplot as plt
 import numpy as np
 
+mylabels = ["Apples", "Bananas", "Cherries", "Dates"]
 y = np.array([35, 25, 25, 15])
-print(y)
 
-plt.pie(y)
+plt.pie(y, labels=mylabels)
+plt.legend(title="Fruits")
 plt.show() 
