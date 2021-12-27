@@ -1,0 +1,41 @@
+import pandas as pd
+
+file=r'C:\Users\sschm\Desktop\dataAnalyst\df-cleaned.csv'
+df=pd.read_csv(file) 
+#print(type(df)) #<class 'pandas.core.frame.DataFrame'>
+#print(df.columns)
+'''
+Index(['Reason_1', 'Reason_2', 'Reason_3', 'Reason_4', 'Month Value',
+       'Day of the Week', 'Transportation Expense', 'Distance to Work', 'Age',
+       'Daily Work Load Average', 'Body Mass Index', 'Education', 'Children',
+       'Pets', 'Absenteeism Time in Hours'],
+      dtype='object')
+'''
+#display(df)
+#df.info()
+
+columns=df.columns
+print("Starting automation correlation for every column:")
+for c in columns:
+    corr=round(df[c].corr(df['Absenteeism Time in Hours']),4)
+    print(corr, " for ", c)
+print("Finished automation correlation for every column.")
+'''
+Starting automation correlation for every column:
+0.2829  for  Reason_1
+-0.0129  for  Reason_2
+0.2042  for  Reason_3
+-0.3074  for  Reason_4
+0.0176  for  Month Value
+-0.1191  for  Day of the Week
+0.0083  for  Transportation Expense
+-0.0806  for  Distance to Work
+0.0358  for  Age
+0.0296  for  Daily Work Load Average
+-0.0402  for  Body Mass Index
+-0.0318  for  Education
+0.0937  for  Children
+-0.0245  for  Pets
+1.0  for  Absenteeism Time in Hours
+Finished automation correlation for every column.
+'''
