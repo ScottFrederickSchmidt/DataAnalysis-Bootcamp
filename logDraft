@@ -1,0 +1,38 @@
+import pandas as pd
+import re
+import time
+
+file1='/kaggle/input/access-log/access_1.log'
+file2='/kaggle/input/access-log/access_2.log'
+file3='/kaggle/input/access-log/access_3.log'
+
+print("Running.")
+count=0
+
+with open(file1, 'r') as f1:
+    f1 = open(file1, "r")
+    content = f1.read()
+    content_list = content.splitlines()
+
+    for c in content_list:
+        #print(c)
+        
+        ip = re.match(r'[0-9]+(?:\.[0-9]+){3}', c )[0]
+        date=re.search(r'(?<=\[).+?(?=\:)',c)[0]
+        dates=date.split('/')
+        num=dates[0]
+        month=dates[1]
+        year=dates[2]
+        print(num, month, year)
+        
+        action='GET'
+        status='200'
+        if 'POST' in c:
+            action='POST'
+        if '404' in c:
+            status='404'
+                        
+        count=count+1
+        if count==3:
+            break
+f1.close()
