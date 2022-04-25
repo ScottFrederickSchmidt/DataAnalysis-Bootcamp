@@ -2,37 +2,46 @@ import pandas as pd
 import re
 import time
 
-file1='/kaggle/input/access-log/access_1.log'
-file2='/kaggle/input/access-log/access_2.log'
-file3='/kaggle/input/access-log/access_3.log'
-
 print("Running.")
-count=0
 
-with open(file1, 'r') as f1:
-    f1 = open(file1, "r")
-    content = f1.read()
-    content_list = content.splitlines()
+class LogAnalyzerApp:
+    def __init__(self, file):
+        self.file = file
+        
+    def analyzeFile(self):
+        f = open(self.file, "r")
+        content = f.read()
+        content_list = content.splitlines()
+        count=0
 
-    for c in content_list:
-        #print(c)
-        
-        ip = re.match(r'[0-9]+(?:\.[0-9]+){3}', c )[0]
-        date=re.search(r'(?<=\[).+?(?=\:)',c)[0]
-        dates=date.split('/')
-        num=dates[0]
-        month=dates[1]
-        year=dates[2]
-        print(num, month, year)
-        
-        action='GET'
-        status='200'
-        if 'POST' in c:
-            action='POST'
-        if '404' in c:
-            status='404'
-                        
-        count=count+1
-        if count==3:
-            break
-f1.close()
+        for c in content_list:      
+            date=re.search(r'(?<=\[).+?(?=\:)',c)[0]
+            dates=date.split('/')
+            num=int(dates[0])
+            month=dates[1]
+            year=int(dates[2])
+            if month=='Feb' and num>17 and year==2016 or month=='March' and num==1 and year==2016:
+                print(num, month, year)
+                count=count+1
+
+            ip = re.match(r'[0-9]+(?:\.[0-9]+){3}', c )[0]
+            action='GET'
+            status='200'
+            if 'POST' in c:
+                action='POST'
+            if '404' in c:
+                status='404'
+                
+        f.close()
+        print("Done. Total files found that met search criteria: ", count)
+    
+if __name__ == "__main__":
+    print("main running")
+    
+    file1='/kaggle/input/access-log/access_1.log'
+    file2='/kaggle/input/access-log/access_2.log'
+    file3='/kaggle/input/access-log/access_3.log'
+    
+    log=LogAnalyzerApp(file1)
+    log.analyzeFile()
+    
