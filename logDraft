@@ -12,6 +12,85 @@ class LogAnalyzerApp:
             content = f.read()
             content_list = content.splitlines()
             count=0
+            
+            #STORE INTO LISTS TO CREATE DATAFRAME LATER:
+            dayList=[]
+            monthList=[]
+            yearList=[]
+            ipList=[]
+            actionList=[]
+            statusList=[]
+            
+            
+            for c in content_list:      
+                date=re.search(r'(?<=\[).+?(?=\:)',c)[0]
+                dates=date.split('/')
+                num=int(dates[0])
+                month=dates[1]
+                year=int(dates[2])
+                if month=='Feb' and num>17 and year==2016 or month=='Mar' and num==1 and year==2016:
+                    #print(num, month, year)
+                    count=count+1
+
+                ip = re.match(r'[0-9]+(?:\.[0-9]+){3}', c )[0]
+                action='GET'
+                status='200'
+                if 'POST' in c:
+                    action='POST'
+                if '404' in c:
+                    status='404'
+                
+                dayList.append(num)
+                monthList.append(month)
+                yearList.append(year)
+                ipList.append(ip)
+                actionList.append(action)
+                statusList.append(status)
+                
+                
+            f.close()
+            print("Done. Total files found that met search criteria: ", count)
+            print("Creating Dataframe: ")
+            
+            df = pd.DataFrame(list(zip(dayList, monthList, yearList, ipList, actionList, statusList)),
+                              columns=['Day', 'Month', 'Year', 'IP', 'Action', 'Status'])
+            return df
+    
+if __name__ == "__main__":
+    print("main running")
+    
+    file1='/kaggle/input/access-log/access_1.log'
+    file2='/kaggle/input/access-log/access_2.log'
+    file3='/kaggle/input/access-log/access_3.log'
+    files=[file1, file2, file3]
+    
+    log=LogAnalyzerApp(files)
+    df=log.analyzeFile()
+    print(df)
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+import pandas as pd
+import re
+import time
+
+class LogAnalyzerApp:
+    def __init__(self, files):
+        self.file = files
+        
+    def analyzeFile(self):
+        for f in files:
+            f = open(f, "r")
+            content = f.read()
+            content_list = content.splitlines()
+            count=0
 
             for c in content_list:      
                 date=re.search(r'(?<=\[).+?(?=\:)',c)[0]
