@@ -1,3 +1,6 @@
+    df404=df.loc[(df['Status']=='404')]
+    df404['IP'].value_counts().head(5)
+
 import pandas as pd
 import re
 import time
